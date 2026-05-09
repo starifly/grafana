@@ -35,10 +35,12 @@ jobs:
           go-version-file: go.mod
       - name: Install build dependencies
         run: sudo apt-get update && sudo apt-get install -y build-essential
-      - name: Build backend
+      - name: Build fronted and backend
         run: |
           export GOOS=linux
           export GOARCH=${{ matrix.arch }}
+          make dpes-js
+          make build-feontend
           make build-backend
       - name: Package binary
         run: |
