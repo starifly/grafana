@@ -40,11 +40,16 @@ jobs:
           export GOOS=linux
           export GOARCH=${{ matrix.arch }}
           make build-backend
+      - name: Package binary
+        run: |
+          mkdir -p artifacts
+          tar czf artifacts/grafana-${{ github.event.inputs.tag }}-linux-${{ matrix.arch }}.tar.gz \
+            -C bin/linux/${{ matrix.arch }}/ grafana
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: grafana-linux-${{ matrix.arch }}
-          path: bin/linux/${{ matrix.arch }}/grafana
+          path: artifacts/grafana-${{ github.event.inputs.tag }}-linux-${{ matrix.arch }}.tar.gz
 
   release:
     needs: build
@@ -61,8 +66,6 @@ jobs:
           name: Release ${{ github.event.inputs.tag }}
           draft: ${{ github.event.inputs.draft }}
           prerelease: ${{ github.event.inputs.prerelease }}
-          files: artifacts/**/grafana
+          files: artifacts/**/*.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
