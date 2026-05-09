@@ -40,8 +40,7 @@ jobs:
           export GOOS=linux
           export GOARCH=${{ matrix.arch }}
           make deps-js
-          make build-frontend
-          make build-backend
+          make build
       - name: Package binary
         run: |
           mkdir -p artifacts
