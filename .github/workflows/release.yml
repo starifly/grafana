@@ -39,7 +39,7 @@ jobs:
         run: |
           export GOOS=linux
           export GOARCH=${{ matrix.arch }}
-          make dpes-js
+          make deps-js
           make build-feontend
           make build-backend
       - name: Package binary
